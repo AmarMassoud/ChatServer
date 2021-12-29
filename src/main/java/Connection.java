@@ -4,15 +4,13 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Connection {
 
     public Thread thread;
-    public int ClientID;
+    private int ClientID;
     private String clientName;
     private PrintWriter out;
     private BufferedReader in;
@@ -43,17 +41,24 @@ public class Connection {
                         if (!ChatServer.connectionNames.contains(text.replace("/setname ", "").replace("", ""))) {
                            ChatServer.connectionNames.remove(this.clientName);
                             this.clientName = text.replace("/setname ", "").replace("", "");
+                            ChatServer.IDNames.put(this.getClientID(), this.clientName);
                             out.println("Your name is now: " + text.replace("/setname", "").replace("", ""));
                             System.out.println(this.ClientID + " Changed their name to " + this.clientName);
                             ChatServer.connectionNames.add(this.clientName);
-                            System.out.println();
-                            ChatServer.connectionNames.forEach(name -> System.out.println(name));
                         } else {
                             out.println("name is wrong");
                         }
+                    } else if (al.get(0).equalsIgnoreCase("/list")) {
+                        ChatServer.IDNames.forEach((key, value) -> {
+                            out.println(key + ": " + value);
+                            System.out.println(key + ": " + value);
+
+                        });
+                        System.out.println(ChatServer.IDNames.values());
+                        System.out.println(ChatServer.IDNames.keySet());
                     } else {
                         ChatServer.connections.forEach(connection -> {
-                            connection.sendOut(clientName == null ? id + ": " + text : clientName + ": " + text);
+                            connection.sendOut(clientName == null ? id + ": " + text : clientName + "(" + id + ")" + ": " + text);
                         });
                         System.out.println(clientName == null ? id + ": " + text : clientName + ": " + text);
                     }

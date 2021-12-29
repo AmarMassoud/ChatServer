@@ -7,12 +7,14 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ChatServer {
 
     private ServerSocket serverSocket;
     public static ArrayList<Connection> connections = new ArrayList<>();
     public static ArrayList<String> connectionNames = new ArrayList<>();
+    public static HashMap<Integer, String> IDNames = new HashMap<Integer, String>();
 
     public void start(int port) throws IOException {
         serverSocket = new ServerSocket(port);
