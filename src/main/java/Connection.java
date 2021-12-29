@@ -22,6 +22,10 @@ public class Connection {
         out.println(line);
     }
 
+    public int getClientID() {
+        return ClientID;
+    }
+
     Connection(Socket clientSocket, int id) {
         this.ClientID = id;
         this.clientSocket = clientSocket;
@@ -57,7 +61,8 @@ public class Connection {
                 }
 
 
-            } catch (SocketException socketException) {
+            } catch (SocketException | NullPointerException socketException) {
+                System.out.println(this.clientName + " disocnnected and has been rmeoved");
                 ChatServer.connectionNames.remove(this.clientName);
             } catch (IOException ignored) {
                 System.out.println(ignored);
