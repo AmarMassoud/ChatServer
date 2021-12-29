@@ -12,6 +12,7 @@ public class ChatServer {
 
     private ServerSocket serverSocket;
     public static ArrayList<Connection> connections = new ArrayList<>();
+    public static ArrayList<String> connectionNames = new ArrayList<>();
 
     public void start(int port) throws IOException {
         serverSocket = new ServerSocket(port);
@@ -20,15 +21,6 @@ public class ChatServer {
             id++;
             connections.add(new Connection(serverSocket.accept(), id));
         }
-//        out = new PrintWriter(clientSocket.getOutputStream(), true);
-//        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-//        while (true){
-//            int text = in.read();
-//
-//            System.out.println(text);
-//            out.println(text);
-//        }
-
 
     }
 
@@ -37,8 +29,8 @@ public class ChatServer {
     }
 
     public static void main(String[] args) throws IOException {
+        System.out.println("server officiallly started");
         ChatServer server = new ChatServer();
-        System.out.println("server officially started");
         server.start(8089);
     }
 
